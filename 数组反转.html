@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+  <script>
+
+    var arr = [12, 34, 5, 3, 34, 22, 4];
+    
+    function reverse(arr) {
+      let left = 0;
+      let right = arr.length - 1;
+      while(left < right) {
+        // 位置置换
+        let tmp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = tmp;
+        left++;
+        right--;
+      }
+    }
+
+    console.time();
+    reverse(arr);
+    console.log(arr);
+    console.timeEnd();
+
+    // 如果是 7千个数据量，数据增加，时间变化多少？
+    // 分析指令，每条指令执行都需要时间，但是，并不是每条指令都跟数据量有关系。
+    // let left = 0; let right = arr.length - 1; // 数组再大，这两条指令还是这两条执行。并不会多次执行，也就是使用的的时间并不会变化。
+
+    // 大O表达式 // 算法复杂度
+    // O = c1*n + c2;
+
+  </script>    
+
+</body>
+</html>
