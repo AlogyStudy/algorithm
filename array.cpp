@@ -1,7 +1,6 @@
 #include <iostream>
 
-int main()
-{
+int main() {
   int array[] = {5, 4, 10, 1, 7, 9, 2};
 
   std::cout << array[4] << std::endl;

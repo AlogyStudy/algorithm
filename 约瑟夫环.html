@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    // reset(), current(), next(), prev(), search(), end() 
+
+    Array.prototype.pointer = 0; // 模拟数组内部指针
+
+    // reset 函数，0将数组内部指针归为，（指向第一个元素）
+    var reset = function (arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('reset function arguments typeof error');
+        return;
+      }
+      // 重置指针
+      arrayObj.pointer = 0;
+    }
+
+    // current 函数，返回数组内部指针的当前元素
+    var current = function (arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('current function arguments typeof error');
+        return;
+      }
+      return arrayObj[arrayObj.pointer];
+    }
+
+    // end 函数，将数组内部指针指向最后一个元素，并返回最后一个元素的当前位置
+    var end = function (arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('end function arguments typeof error');
+        return;
+      }
+      arrayObj.pointer = arrayObj.length - 1;
+      return arrayObj[arrayObj.pointer];
+    }
+
+    // next函数，将数组内部指针下移一位，如果已经指向最后一个元素则返回false
+    var next = function (arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('next function arguments typeof error');
+        return;
+      }
+      // 指针后移
+      arrayObj.pointer++;
+      // 判断指针是否在最后一个
+      if (typeof arrayObj[arrayObj.pointer] == 'undefined') {
+        arrayObj.pointer--; // 重置回最后一个
+        return false;
+      }
+      return true;
+    }
+
+    // prev函数，将数组内部指针上移一位，如果已经指向第一个元素则返回false
+    var prev = function (arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('prev function arguments error');
+        return;
+      }
+      // 指针前移
+      arrayObj.pointer--;
+      // 判断指针是否第一个
+      if (typeof arrayObj[arrayObj.pointer] == 'undefind') {
+        arrayObj.pointer++; // 重置回第一个
+        return false;
+      }
+      return arrayObj[arrayObj.pointer];
+    }
+
+    // unset 函数， 删除指定的数组元素
+    var unset = function (idx, arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('unset function arguments error');
+        return;
+      }
+      if (typeof arrayObj[idx] == 'undefined') {
+        console.warn("unset() 函数参数 idx 错误！不存在此元素！");
+        return false;
+      }
+      arrayObj.splice(idx, 1);
+      return true;
+    }
+
+    // search 函数，通过数组键值返回数组键名
+    var search = function (value, arrayObj) {
+      if (!(arrayObj instanceof Array)) {
+        console.warn('search function arguments  error');
+        return;
+      }
+      for (var i in arrayObj) {
+        if (arrayObj[i] == value) {
+          return i; // 返回键名
+        }
+      }
+      return false;
+    }
+
+    // getKingMonkey 主函数 // n 只猴子，数到 m   // 4个人数，到3停止一次。
+    function getKingMonkey(n, m) {
+      debugger;
+      // 1. 构造元素
+      // 2. 循环
+
+      a = new Array();
+      for (var i = 1; i <= n; i++) {
+        a[i] = i;
+      }
+      a[0] = 0;  // 补第0个位置 // [undefined × 1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] --> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      unset(0, a); // 删除第0个元素  // [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+      reset(a); // 数组内部指针归为0 
+
+      while (a.length > 1) {
+        for (counter = 1; counter <= m; counter++) {
+          if (next(a)) { // 是否具有后续指针
+            if (counter == m) { 
+              unset(search(prev(a), a), a);
+            }
+          } else {
+            reset(a); // 重置指针到第0位
+            if (counter == m) {
+              unset(search(end(a), a), a);
+              reset(a); // 重置指针到第0位
+            }
+          }
+        }
+      }
+      return current(a);
+    }
+
+    console.log(getKingMonkey(4, 3)); // 1
+  </script>
+
+</body>
+
+</html>
