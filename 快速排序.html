@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    /**
+      快速排序：以一个项为原始基点，所有分别放置左右大小，再次选择基点，再分别放置左右大小，直至排序完成。
+      // 通过一趟排序将要排序的数据分割成独立的两部分，其中一部分的所有数据都比另外一部分的所有数据都要小，
+      // 然后再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
+    */
+    function quickSort(array) {
+      function sort(prev, numsize) {
+        var nonius = prev;
+        var j = numsize - 1;
+        var flag = array[prev];
+        if ((numsize - prev) > 1) {
+          while (nonius < j) {
+            for (; nonius < j; j--) {
+              if (array[j] < flag) {
+                array[nonius++] = array[j];　//a[i] = a[j]; i += 1;
+                break;
+              };
+            }
+            for (; nonius < j; nonius++) {
+              if (array[nonius] > flag) {
+                array[j--] = array[nonius];
+                break;
+              }
+            }
+          }
+          array[nonius] = flag;
+          sort(0, nonius);
+          sort(nonius + 1, numsize);
+        }
+      }
+      sort(0, array.length);
+      return array;
+    }
+  </script>
+
+</body>
+
+</html>
