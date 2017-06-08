@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+
+        console.log(typeof typeof typeof function() {});  // typeof function() {} --> 'function',  typeof 'function' --> 'string' ,  typeof 'string'  --> 'string'
+
+
+        function fn(num1, num2) {
+            // if (typeof num2 == 'undefined') {
+            //     num2 = 0;
+            // }
+
+            // num2 = num2 || 0; // 这种形式，和上面的默认值形式并不完全相同
+        }
+
+        // ---
+        // instanceof
+
+        var obj = [123, 123];
+        console.log(obj instanceof Array); // true
+        console.log(obj instanceof RegExp); // false
+
+        console.log(1 instanceof Number);
+        console.log(new Number(1) instanceof Number);
+        // instanceof 的局限性，对于基本数据类型来说字面量方式创建出来的结果和实例方式创建出来的结果是有一定区别的，
+        // 从严格意义上来讲，只有实例创建出来的结果才是标准的对象数据类型值，也是标准的Number这个类的一个实例；对于字面量方式创建出来的结果
+        // 是基本数据类型值，不是严谨的实例，但是由于JS的松散特点，导致了可以使用Number.prototype上提供的方法。
+
+
+        var arr = [];
+        console.log(arr instanceof Array);  // true
+        console.log(arr instanceof Object); // true
+        
+
+        // 在类的原型继承中，最后检测出来的结果未必正确
+        function Fn() {}
+        Fn.prototype = new Array(); // 原型继承
+        var f = new Fn(); 
+        console.log(f instanceof Function); // false
+        console.log(f instanceof Array); // true
+        // f->Fn.prototype -> Array.prototype -> Object.prototype
+
+
+        // 利用这个特性，可以创建类数组（索引和length），可以使用数组的方法（在它的原型链上就应该有Array.prototype了）
+        function arg() {
+            // 存放私有属性
+            this.index = 0;
+            this.legnth = 0;
+        }
+        arg.prototype = Array.prototype;
+
+        // constructor 
+        var obj = [];
+        console.log(obj.constructor === Array); // true
+
+        var reg = /\d+/;
+        console.log(reg.constructor === RegExp); // true
+        console.log(reg.constructor === Object); // false
+
+
+        // toString
+        console.log((1).toString()); // '1' // 使用的是：Number.prototype.toString();  // Number上的有toString()参数可以有进制转换
+        console.log((1).__proto__.__proto__.toString()); // '[object Object]'  // 使用的是：Object.prototype.toString(); 
+
+
+    </script>
+
+</body>
+</html>
